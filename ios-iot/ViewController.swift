@@ -108,6 +108,8 @@ extension ViewController: CocoaMQTTDelegate {
         print("didReceivedMessage: \(message.string) with id \(id)")
         
         print("message: \(message.string!) \n topic  \(message.topic)")
+        
+         c2dMesssages.text = message.string!
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
