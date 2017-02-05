@@ -1,0 +1,6 @@
+framework module Pods_ios_iot {
+  umbrella header "Pods-ios-iot-umbrella.h"
+
+  export *
+  module * { export * }
+}
