@@ -24,7 +24,6 @@ class ViewController: UIViewController {
         mqtt = CocoaMQTT(clientID: clientID, host: "<your-iothub-name>.azure-devices.net", port: 8883)
         mqtt!.username = "<your-iothub-name>>.azure-devices.net/<devicename>"
         mqtt!.password = "SharedAccessSignature yourshared-sas-key"
-        mqtt!.willMessage = CocoaMQTTWill(topic: "/will", message: "dieout")
         mqtt!.keepAlive = 60
         mqtt!.delegate = self
         mqtt!.enableSSL = true
