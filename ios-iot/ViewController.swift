@@ -51,11 +51,14 @@ class ViewController: UIViewController {
                 mqtt!.connect()
                 mqttSend.isEnabled = true
                 button.setTitle("Disconnect", for: .normal)
+            
+            
         default:
                 print("in transition state")
         }
     }
     
+    @IBOutlet weak var c2dMesssages: UITextView!
     @IBOutlet weak var mqttSend: UIButton!
     
     @IBAction func sendMessage(_ sender: Any) {
@@ -89,9 +92,8 @@ extension ViewController: CocoaMQTTDelegate {
         print("didConnectAck: \(ack)，rawValue: \(ack.rawValue)")
         
         if ack == .accept {
-            
+             mqtt.subscribe("devices/workshopdevice/messages/devicebound/#", qos: CocoaMQTTQOS.qos1)
         }
-        
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
@@ -104,6 +106,8 @@ extension ViewController: CocoaMQTTDelegate {
     
     func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
         print("didReceivedMessage: \(message.string) with id \(id)")
+        
+        print("message: \(message.string!) \n topic  \(message.topic)")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
