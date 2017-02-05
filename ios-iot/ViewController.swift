@@ -36,10 +36,33 @@ class ViewController: UIViewController {
     }
  
     @IBAction func connectbtn(_ sender: Any) {
-        print("connect")
         
-        mqtt!.connect()
+        let button = (sender as AnyObject)
+        
+        switch mqtt!.connState {
+        case CocoaMQTTConnState.connected:
+                print("disconnect")
+                mqtt!.disconnect()
+                mqttSend.isEnabled = false
+                button.setTitle("Connect", for: .normal)
+        case CocoaMQTTConnState.initial,
+             CocoaMQTTConnState.disconnected:
+                print("connect")
+                mqtt!.connect()
+                mqttSend.isEnabled = true
+                button.setTitle("Disconnect", for: .normal)
+        default:
+                print("in transition state")
+        }
     }
+    
+    @IBOutlet weak var mqttSend: UIButton!
+    
+    @IBAction func sendMessage(_ sender: Any) {
+        let message = "sample message"
+        mqtt!.publish("devices/workshopdevice/messages/events/", withString: message, qos: .qos1)
+    }
+    
 }
 
 // from sample at https://github.com/emqtt/CocoaMQTT/tree/master/Example
